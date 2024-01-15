@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -31,6 +32,7 @@ public class HelloJobConfig {
         // JobBuilder를 사용하여 'helloJob'이라는 이름의 Job을 생성하고, simpleStep1 스텝을 시작으로 설정
         return new JobBuilder("helloJob", jobRepository)
                 .start(simpleStep1)
+                .incrementer(new RunIdIncrementer()) // Job 파라미터를 위한 Incrementer 설정, 이거는 자동으로 실행될 때 작동한다.
                 .build();
     }
 
