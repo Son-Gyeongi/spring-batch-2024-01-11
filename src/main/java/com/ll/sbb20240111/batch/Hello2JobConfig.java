@@ -57,8 +57,7 @@ public class Hello2JobConfig {
     public Tasklet hello2Step1Tasklet() {
         // Tasklet을 생성하고, execute 메서드에서 "Hello World"를 로깅하고 콘솔에 출력한 후 RepeatStatus.FINISHED를 반환
         return ((contribution, chunkContext) -> {
-            log.info("Hello World");
-            System.out.println("Hello World 2/1");
+            System.out.println("Hello World 2-1");
             return RepeatStatus.FINISHED;
         });
     }
@@ -80,8 +79,7 @@ public class Hello2JobConfig {
     public Tasklet hello2Step2Tasklet() {
         // Tasklet을 생성하고, execute 메서드에서 "Hello World"를 로깅하고 콘솔에 출력한 후 RepeatStatus.FINISHED를 반환
         return ((contribution, chunkContext) -> {
-            log.info("Hello World");
-            System.out.println("Hello World 2/2");
+            System.out.println("Hello World 2-2");
             return RepeatStatus.FINISHED;
         });
     }

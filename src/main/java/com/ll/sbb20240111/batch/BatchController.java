@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Spring Batch Job을 실행하는 컨트롤러 클래스
  */
+/*
+미션 2
+스프링부트가 시작되었을 때 자동으로 스프링배치 작업이 실행되도록 하지 말고
+특정 메서드가 호출되면 그 때 해당 배치가 시작되도록 만들어주세요.
+ */
 @Controller
 @RequestMapping("/batch")
 @RequiredArgsConstructor
