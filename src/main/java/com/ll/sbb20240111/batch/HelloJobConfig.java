@@ -28,31 +28,31 @@ Hello World 라는 텍스트가 배치에 의해서 출력되어야 합니다.
 public class HelloJobConfig {
     // Job 생성 메서드
     @Bean
-    public Job helloJob(JobRepository jobRepository, Step simpleStep1) { // simpleStep1는 helloStep1 이다. 잡이 한개인경우 분명해서 아무이름이나 붙여도 됨
+    public Job helloJob(JobRepository jobRepository, Step helloStep1) { // 잡이 한개 있으면 이름 바꿔도 상관없지만 알아보기 쉽게 helloStep1로 바꾸었다.
         // JobBuilder를 사용하여 'helloJob'이라는 이름의 Job을 생성하고, simpleStep1 스텝을 시작으로 설정
         return new JobBuilder("helloJob", jobRepository)
-                .start(simpleStep1)
+                .start(helloStep1)
                 .incrementer(new RunIdIncrementer()) // Job 파라미터를 위한 Incrementer 설정, 이거는 자동으로 실행될 때 작동한다.
                 .build();
     }
 
     // Step 생성 메서드
     @Bean
-    public Step helloStep1(JobRepository jobRepository, Tasklet helloStep1Tasklet1,
+    public Step helloStep1(JobRepository jobRepository, Tasklet helloStep1Tasklet,
                            PlatformTransactionManager platformTransactionManager) { // helloStep1Tasklet1는 helloStep1Tasklet1 이다.
         // StepBuilder를 사용하여 'helloStep1Tasklet1'이라는 이름의 Step을 생성하고, Tasklet과 TransactionManager를 설정
-        return new StepBuilder("helloStep1Tasklet1", jobRepository)
-                .tasklet(helloStep1Tasklet1, platformTransactionManager)
+        return new StepBuilder("helloStep1Tasklet", jobRepository)
+                .tasklet(helloStep1Tasklet, platformTransactionManager)
                 .build();
     }
 
     // Tasklet 생성 메서드
     @Bean
-    public Tasklet helloStep1Tasklet1() {
+    public Tasklet helloStep1Tasklet() {
         // Tasklet을 생성하고, execute 메서드에서 "Hello World"를 로깅하고 콘솔에 출력한 후 RepeatStatus.FINISHED를 반환
         return ((contribution, chunkContext) -> {
             log.info("Hello World");
-            System.out.println("Hello World");
+            System.out.println("Hello World 1/1");
             return RepeatStatus.FINISHED;
         });
     }

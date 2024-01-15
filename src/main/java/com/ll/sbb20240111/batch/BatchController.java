@@ -19,13 +19,13 @@ public class BatchController {
      * "/batch/simple" 엔드포인트에 대한 GET 요청을 처리하는 메서드
      * @return 문자열 "runSimpleJob ok"를 응답으로 반환
      */
-    @GetMapping("/simple")
+    @GetMapping("/hello")
     @ResponseBody
-    public String runSimpleJob() {
+    public String runHelloJob() {
         // BatchService를 통해 간단한 Spring Batch Job을 실행
-        batchService.runSimpleJob();
+        batchService.runHelloJob();
 
         // 클라이언트에게 "runSimpleJob ok"라는 문자열을 응답으로 반환
-        return "runSimpleJob ok";
+        return "helloJob ok";
     }
 }
