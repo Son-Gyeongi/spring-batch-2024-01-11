@@ -29,57 +29,51 @@ hello3Job 생성
 @Slf4j
 @Configuration
 public class Hello3JobConfig {
-    // Job 생성 메서드
     @Bean
-    public Job hello3Job(JobRepository jobRepository, Step hello3Step1, Step hello3Step2) { // 잡이 한개 있으면 이름 바꿔도 상관없지만 알아보기 쉽게 hello3Step1로 바꾸었다.
-        // JobBuilder를 사용하여 'hello3Job'이라는 이름의 Job을 생성하고, simpleStep1 스텝을 시작으로 설정
+    public Job hello3Job(
+            JobRepository jobRepository,
+            Step hello3Step1,
+            Step hello3Step2,
+            Step hello3Step3
+    ) {
         return new JobBuilder("hello3Job", jobRepository)
                 .start(hello3Step1)
                 .next(hello3Step2)
-                .incrementer(new RunIdIncrementer()) // Job 파라미터를 위한 Incrementer 설정, 이거는 자동으로 실행될 때 작동한다.
+                .next(hello3Step3)
+                .incrementer(new RunIdIncrementer())
                 .build();
     }
 
-    // Step 생성 메서드
     @JobScope
     @Bean
-    public Step hello3Step1(JobRepository jobRepository, Tasklet hello3Step1Tasklet,
-                           PlatformTransactionManager platformTransactionManager) { // hello3Step1Tasklet1는 hello3Step1Tasklet1 이다.
-        // StepBuilder를 사용하여 'hello3Step1Tasklet1'이라는 이름의 Step을 생성하고, Tasklet과 TransactionManager를 설정
+    public Step hello3Step1(JobRepository jobRepository, Tasklet hello3Step1Tasklet, PlatformTransactionManager platformTransactionManager) {
         return new StepBuilder("hello3Step1Tasklet", jobRepository)
                 .tasklet(hello3Step1Tasklet, platformTransactionManager)
                 .build();
     }
 
-    // Tasklet 생성 메서드
     @StepScope
     @Bean
     public Tasklet hello3Step1Tasklet() {
-        // Tasklet을 생성하고, execute 메서드에서 "Hello World"를 로깅하고 콘솔에 출력한 후 RepeatStatus.FINISHED를 반환
         return ((contribution, chunkContext) -> {
-            System.out.println("Hello World 2-1");
+            System.out.println("Hello World 3-1");
             return RepeatStatus.FINISHED;
         });
     }
 
-    // Step 생성 메서드
     @JobScope
     @Bean
-    public Step hello3Step2(JobRepository jobRepository, Tasklet hello3Step2Tasklet,
-                            PlatformTransactionManager platformTransactionManager) { // hello3Step2Tasklet1는 hello3Step2Tasklet1 이다.
-        // StepBuilder를 사용하여 'hello3Step2Tasklet1'이라는 이름의 Step을 생성하고, Tasklet과 TransactionManager를 설정
+    public Step hello3Step2(JobRepository jobRepository, Tasklet hello3Step2Tasklet, PlatformTransactionManager platformTransactionManager) {
         return new StepBuilder("hello3Step2Tasklet", jobRepository)
                 .tasklet(hello3Step2Tasklet, platformTransactionManager)
                 .build();
     }
 
-    // Tasklet 생성 메서드
     @StepScope
     @Bean
     public Tasklet hello3Step2Tasklet() {
-        // Tasklet을 생성하고, execute 메서드에서 "Hello World"를 로깅하고 콘솔에 출력한 후 RepeatStatus.FINISHED를 반환
         return ((contribution, chunkContext) -> {
-            System.out.println("Hello World 2-2");
+            System.out.println("Hello World 3-2");
             return RepeatStatus.FINISHED;
         });
     }
