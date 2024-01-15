@@ -3,6 +3,8 @@ package com.ll.sbb20240111.batch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.JobScope;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -37,6 +39,7 @@ public class HelloJobConfig {
     }
 
     // Step 생성 메서드
+    @JobScope
     @Bean
     public Step helloStep1(JobRepository jobRepository, Tasklet helloStep1Tasklet,
                            PlatformTransactionManager platformTransactionManager) { // helloStep1Tasklet1는 helloStep1Tasklet1 이다.
@@ -47,6 +50,7 @@ public class HelloJobConfig {
     }
 
     // Tasklet 생성 메서드
+    @StepScope
     @Bean
     public Tasklet helloStep1Tasklet() {
         // Tasklet을 생성하고, execute 메서드에서 "Hello World"를 로깅하고 콘솔에 출력한 후 RepeatStatus.FINISHED를 반환
