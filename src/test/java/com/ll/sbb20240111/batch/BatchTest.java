@@ -23,6 +23,8 @@ public class BatchTest {
     private JobLauncherTestUtils hello2JobLauncherTestUtils;
     @Autowired
     private JobLauncherTestUtils hello3JobLauncherTestUtils;
+    @Autowired
+    private JobLauncherTestUtils hello4JobLauncherTestUtils;
 
     @DisplayName("helloJob")
     @Test
@@ -41,7 +43,14 @@ public class BatchTest {
     @DisplayName("hello3Job")
     @Test
     public void t3() throws Exception {
-        // hello2Job()을 실행해보고 싶다면
+        // hello3Job()을 실행해보고 싶다면
         hello3JobLauncherTestUtils.launchJob();
+    }
+
+    @DisplayName("hello4Job")
+    @Test
+    public void t4() throws Exception {
+        // hello4Job()을 실행해보고 싶다면
+        hello4JobLauncherTestUtils.launchJob();
     }
 }
