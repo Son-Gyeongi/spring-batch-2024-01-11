@@ -1,5 +1,6 @@
 package com.ll.sbb20240111.batch;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -42,6 +43,16 @@ public class Hello4JobConfig {
                 .build();
     }
 
+    @JobScope
+    @Component
+    public static class Hello4Step1Counter {
+        private int count = 0;
+
+        public void printCount(String where) {
+            System.out.println(" count = " + ++count + " in " + where);
+        }
+    }
+
     // "hello4Step1" 청크 기반 작업을 설정하는 메서드
     @JobScope
     @Bean
@@ -64,11 +75,16 @@ public class Hello4JobConfig {
     // 원본 데이터를 읽어오는 ItemReader 구현 클래스
     @StepScope
     @Component
+    @RequiredArgsConstructor
     public static class Hello4Step1Reader implements ItemReader<Integer> {
+        private final Hello4Step1Counter hello4Step1Counter;
+
         @Override
         public Integer read() {
+            hello4Step1Counter.printCount("Reader");
+
             // 0에서 500 사이의 난수를 생성하여 반환
-            int no = (int) (Math.random() * 500);
+            int no = (int) (Math.random() * 200);
 
             // 특정 조건에 도달하면(null인 경우) 읽기를 중단
             if (no==100) return null;
@@ -82,9 +98,14 @@ public class Hello4JobConfig {
     // EX : 50 -> "no. 50"
     @StepScope
     @Component
+    @RequiredArgsConstructor
     public static class Hello4Step1Processor implements ItemProcessor<Integer, String> {
+        private final Hello4Step1Counter hello4Step1Counter;
+
         @Override
         public String process(Integer item) {
+            hello4Step1Counter.printCount("Processor");
+
             // 원본 데이터를 가공하여 문자열 반환
             return "no. " + item;
         }
@@ -94,14 +115,17 @@ public class Hello4JobConfig {
     // 최종 처리 결과를 화면에 출력하는 ItemWriter 구현 클래스
     @StepScope
     @Component
+    @RequiredArgsConstructor
     public static class Hello4Step1Writer implements ItemWriter<String> {
+        private final Hello4Step1Counter hello4Step1Counter;
+
         @Override
         public void write(Chunk<? extends String> chunk) {
             // 처리된 항목들을 화면에 출력
             List<String> items = (List<String>) chunk.getItems();
 
             for (String item : items) {
-                System.out.println("item = "+item);
+                hello4Step1Counter.printCount("Writer, item = " + item);
             }
         }
     }

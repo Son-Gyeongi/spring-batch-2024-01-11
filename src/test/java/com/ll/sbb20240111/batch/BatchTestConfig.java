@@ -37,4 +37,11 @@ public class BatchTestConfig {
         utils.setJob(hello4Job);
         return utils;
     }
+
+    @Bean
+    public JobLauncherTestUtils hello5JobLauncherTestUtils(Job hello5Job) {
+        JobLauncherTestUtils utils = new JobLauncherTestUtils();
+        utils.setJob(hello5Job);
+        return utils;
+    }
 }
