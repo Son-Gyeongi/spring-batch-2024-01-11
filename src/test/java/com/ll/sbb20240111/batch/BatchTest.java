@@ -27,6 +27,8 @@ public class BatchTest {
     private JobLauncherTestUtils hello4JobLauncherTestUtils;
     @Autowired
     private JobLauncherTestUtils hello5JobLauncherTestUtils;
+    @Autowired
+    private JobLauncherTestUtils makeProductLogJobLauncherTestUtils;
 
     @DisplayName("helloJob")
     @Test
@@ -61,5 +63,12 @@ public class BatchTest {
     public void t5() throws Exception {
         // hello5Job()을 실행해보고 싶다면
         hello5JobLauncherTestUtils.launchJob();
+    }
+
+    @DisplayName("makeProductLogJob")
+    @Test
+    public void t6() throws Exception {
+        // makeProductLogJob()을 실행해보고 싶다면
+        makeProductLogJobLauncherTestUtils.launchJob();
     }
 }
