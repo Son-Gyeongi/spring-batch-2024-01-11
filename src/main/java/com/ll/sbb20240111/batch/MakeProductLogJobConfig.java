@@ -4,6 +4,7 @@ import com.ll.sbb20240111.domain.product.product.entity.Product;
 import com.ll.sbb20240111.domain.product.product.entity.ProductLog;
 import com.ll.sbb20240111.domain.product.product.repository.ProductLogRepository;
 import com.ll.sbb20240111.domain.product.product.repository.ProductRepository;
+import com.ll.sbb20240111.standard.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -17,11 +18,14 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -29,10 +33,17 @@ import java.util.Collections;
  * "makeProductLogStep1"은 청크 기반 작업으로,
  * Product 엔터티를 읽어와 ProductLog 엔터티로 가공하여 저장하는 작업을 수행
  */
+/*
+미션 6
+잡 파라미터를 활용해서
+생성날짜가 2024-01-15 인 상품만 로그가 생기도록
+-> 25강, 잡 파라미터를 이용해서 로깅의 구간(날짜 기준)을 설정
+-> step1Reader()에 날짜 파라미터만 추가해서 ProductRepository에서 해당 날짜 사이의 데이터만 불러준다.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class MakeProductLogJobConfig {
-    private final int CHUNK_SIZE = 50;
+    private final int CHUNK_SIZE = 20;
     private final ProductRepository productRepository;
     private final ProductLogRepository productLogRepository;
 
@@ -72,12 +83,19 @@ public class MakeProductLogJobConfig {
      */
     @StepScope
     @Bean
-    public ItemReader<Product> step1Reader() {
+    public ItemReader<Product> step1Reader(
+            @Value("#{jobParameters['startDate']}") String _startDate,
+            @Value("#{jobParameters['endDate']}") String _endDate
+    ) {
+        LocalDateTime startDate = Ut.date.parse(_startDate);
+        LocalDateTime endDate = Ut.date.parse(_endDate);
+
         return new RepositoryItemReaderBuilder<Product>()
                 .name("step1Reader")
                 .repository(productRepository)
-                .methodName("findAll")
+                .methodName("findByCreateDateBetween")
                 .pageSize(CHUNK_SIZE)
+                .arguments(Arrays.asList(startDate, endDate))
                 .sorts(Collections.singletonMap("id", Sort.Direction.ASC))
                 .build();
     }
