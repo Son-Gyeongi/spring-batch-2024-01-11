@@ -1,6 +1,8 @@
 server:
   port: 8090
 spring:
+  profiles:
+    active: dev # 스프링 애플리케이션의 활성 프로파일을 'dev'로 설정
   threads:
     virtual:
       enabled: true
