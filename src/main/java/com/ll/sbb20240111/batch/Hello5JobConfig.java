@@ -41,7 +41,7 @@ public class Hello5JobConfig {
             JobRepository jobRepository,
             PlatformTransactionManager platformTransactionManager
     ) {
-        return new StepBuilder("hello5Step1Tasklet", jobRepository)
+        return new StepBuilder("hello5Step1", jobRepository)
                 .<Integer, String>chunk(10, platformTransactionManager)
                 .reader(() -> {
                     // 0에서 100 사이의 난수를 생성하여 반환

@@ -68,7 +68,7 @@ public class MakeProductLogJobConfig {
             ItemWriter<ProductLog> step1Writer,
             PlatformTransactionManager platformTransactionManager
     ) {
-        return new StepBuilder("makeProductLogStep1Tasklet", jobRepository)
+        return new StepBuilder("makeProductLogStep1", jobRepository)
                 .<Product, ProductLog>chunk(CHUNK_SIZE, platformTransactionManager)
                 .reader(step1Reader)
                 .processor(step1Processor)
@@ -118,6 +118,10 @@ public class MakeProductLogJobConfig {
     @Bean
     public ItemWriter<ProductLog> step1Writer() {
         return items -> items.forEach(item -> {
+            if (item.getProduct().getId() == 100) {
+                throw new RuntimeException("100번은 실패");
+            }
+
             // "productLogRepository"를 이용하여 ProductLog 엔터티를 저장
             productLogRepository.save(item);
         });
