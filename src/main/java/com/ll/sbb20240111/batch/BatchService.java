@@ -7,6 +7,8 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 /**
  * Spring Batch Job을 실행하는 서비스 클래스
  */
@@ -17,6 +19,7 @@ public class BatchService {
     private final JobLauncher jobLauncher;
     // 실행할 Spring Batch Job을 주입받음
     private final Job helloJob;
+    private final Job makeProductLogJob;
 
     /**
      * 간단한 Spring Batch Job을 실행하는 메서드
@@ -35,6 +38,24 @@ public class BatchService {
             jobLauncher.run(helloJob, jobParameters);
         } catch (Exception e) {
             // 예외 발생 시 스택 트레이스를 출력
+            e.printStackTrace();
+        }
+    }
+
+    public void runMakeProductLogJob(LocalDateTime startDate_, LocalDateTime endDate_) {
+        try {
+            String startDate = startDate_.toString().substring(0, 10) + "00:00:00.000000";
+            String endDate = startDate_.toString().substring(0, 10) + "23:59:59.999999";
+
+            // 파라미터 생성
+            // 잡 파라미터를 이용해서 로깅의 구간(날짜 기준)을 설정
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addString("startDate", startDate)
+                    .addString("endDate", endDate)
+                    .toJobParameters();
+
+            jobLauncher.run(makeProductLogJob, jobParameters);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

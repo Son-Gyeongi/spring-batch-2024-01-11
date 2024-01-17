@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDateTime;
+
 /**
  * Spring Batch Job을 실행하는 컨트롤러 클래스
  */
@@ -22,6 +24,7 @@ public class BatchController {
 
     /**
      * "/batch/simple" 엔드포인트에 대한 GET 요청을 처리하는 메서드
+     *
      * @return 문자열 "runSimpleJob ok"를 응답으로 반환
      */
     @GetMapping("/hello")
@@ -32,5 +35,28 @@ public class BatchController {
 
         // 클라이언트에게 "runSimpleJob ok"라는 문자열을 응답으로 반환
         return "helloJob ok";
+    }
+
+    @GetMapping("makeProductLog")
+    @ResponseBody
+    public String runMakeProductLogJob() {
+        LocalDateTime startDate = LocalDateTime.now()
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0)
+                .withNano(0);
+
+        LocalDateTime endDate = LocalDateTime.now()
+                .withHour(23)
+                .withMinute(59)
+                .withSecond(59)
+                .withNano(999999);
+
+        batchService.runMakeProductLogJob(
+                startDate,
+                endDate
+        );
+
+        return "makeProductLog OK";
     }
 }
