@@ -118,12 +118,11 @@ public class MakeProductLogJobConfig {
     @Bean
     public ItemWriter<ProductLog> step1Writer() {
         return items -> items.forEach(item -> {
-            if (item.getProduct().getId() == 100) {
-                throw new RuntimeException("100번은 실패");
-            }
-
+            // 잡이 실패한 후에 다시 실행이 되어도 이미 저장된 데이터는 저장 되지 않고
+            // 새로운 데이터만 저장이 되게 만들었다.
+            if (!productLogRepository.existsByProduct(item.getProduct()))
+                productLogRepository.save(item);
             // "productLogRepository"를 이용하여 ProductLog 엔터티를 저장
-            productLogRepository.save(item);
         });
     }
 }
