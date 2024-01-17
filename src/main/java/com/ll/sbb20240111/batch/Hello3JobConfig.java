@@ -68,6 +68,10 @@ public class Hello3JobConfig {
     }
 
     // hello3Step1을 설정하는 메서드
+    /*
+    @JobScope // Job이 실행된 쓰레드에서만 @JobScope가 된다.
+    // 별도의 쓰레드에서 hello3Step1이랑 hello3Step2랑 진행이 된다. 이러한 쓰레드 문제 때문에 에러가 난거다. 그래서 @JobScope를 빼겠다.
+     */
     @Bean
     public Step hello3Step1(JobRepository jobRepository, Tasklet hello3Step1Tasklet, PlatformTransactionManager platformTransactionManager) {
         // StepBuilder를 사용하여 'hello3Step1Tasklet'이라는 이름의 Step을 생성하고, Tasklet과 TransactionManager를 설정
@@ -88,6 +92,10 @@ public class Hello3JobConfig {
     }
 
     // hello3Step2를 설정하는 메서드
+    /*
+    @JobScope // Job이 실행된 쓰레드에서만 @JobScope가 된다.
+    // 별도의 쓰레드에서 hello3Step1이랑 hello3Step2랑 진행이 된다. 이러한 쓰레드 문제 때문에 에러가 난거다. 그래서 @JobScope를 빼겠다.
+     */
     @Bean
     public Step hello3Step2(JobRepository jobRepository, Tasklet hello3Step2Tasklet, PlatformTransactionManager platformTransactionManager) {
         // StepBuilder를 사용하여 'hello3Step2Tasklet'이라는 이름의 Step을 생성하고, Tasklet과 TransactionManager를 설정
