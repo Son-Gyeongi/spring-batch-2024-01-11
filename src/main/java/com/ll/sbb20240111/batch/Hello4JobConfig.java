@@ -43,7 +43,7 @@ public class Hello4JobConfig {
                 .build();
     }
 
-    @JobScope
+    @JobScope // Job 당 1개 만들어진다.
     @Component
     public static class Hello4Step1Counter {
         private int count = 0;
