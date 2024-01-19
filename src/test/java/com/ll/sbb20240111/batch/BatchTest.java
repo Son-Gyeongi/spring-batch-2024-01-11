@@ -76,7 +76,7 @@ public class BatchTest {
         String startDate = LocalDateTime.now().minusDays(1).toString().substring(0, 10) + " 00:00:00.000000";
         String endDate = LocalDateTime.now().minusDays(1).toString().substring(0, 10) + " 23:59:59.999999";
 
-        // 파라미터 생성
+        // 파라미터 생성 - 잡 파라미터를 잡 실행하는 곳에 만든다.
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("startDate", startDate)
                 .addString("endDate", endDate)

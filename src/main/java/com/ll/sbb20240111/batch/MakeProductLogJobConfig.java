@@ -86,6 +86,12 @@ public class MakeProductLogJobConfig {
     public ItemReader<Product> step1Reader(
             @Value("#{jobParameters['startDate']}") String _startDate,
             @Value("#{jobParameters['endDate']}") String _endDate
+            /*
+            @Value("#{jobParameters['startDate']}")는 Spring Batch에서 사용되는 것으로,
+            Spring Batch의 JobParameters에서 'startDate'라는 이름의 파라미터 값을 가져오기 위한 표현식
+
+            jobParameters는 Spring Batch의 JobParameters 객체
+             */
     ) {
         LocalDateTime startDate = Ut.date.parse(_startDate);
         LocalDateTime endDate = Ut.date.parse(_endDate);
