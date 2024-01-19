@@ -43,7 +43,7 @@ import java.util.Collections;
 @Configuration
 @RequiredArgsConstructor
 public class MakeProductLogJobConfig {
-    private final int CHUNK_SIZE = 20;
+    private final int CHUNK_SIZE = 20; // 청크 단위에 맞춰서 Reader에 적용해주면 한번에 불러올 수 있다.
     private final ProductRepository productRepository;
     private final ProductLogRepository productLogRepository;
 
@@ -94,7 +94,7 @@ public class MakeProductLogJobConfig {
                 .name("step1Reader")
                 .repository(productRepository)
                 .methodName("findByCreateDateBetween")
-                .pageSize(CHUNK_SIZE)
+                .pageSize(CHUNK_SIZE) // pageSize 정해주지 않으면 기본이 10이다.
                 .arguments(Arrays.asList(startDate, endDate))
                 .sorts(Collections.singletonMap("id", Sort.Direction.ASC))
                 .build();
