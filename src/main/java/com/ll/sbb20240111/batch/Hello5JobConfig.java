@@ -41,6 +41,7 @@ public class Hello5JobConfig {
             JobRepository jobRepository,
             PlatformTransactionManager platformTransactionManager
     ) {
+        // 로그에 남는 이름 "hello5Step1"
         return new StepBuilder("hello5Step1", jobRepository)
                 .<Integer, String>chunk(10, platformTransactionManager)
                 .reader(() -> {
