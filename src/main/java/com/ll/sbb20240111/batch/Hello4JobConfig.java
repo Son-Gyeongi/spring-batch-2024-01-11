@@ -10,7 +10,10 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.*;
+import org.springframework.batch.item.Chunk;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -21,9 +24,9 @@ import java.util.List;
 /**
  * 배치 작업을 설정하는 Spring Batch Job Configuration 클래스
  * Job은 하나의 작업 단위를 나타낸다.
- *
- *  Spring Batch를 사용하여 "hello4Job"이라는 배치 작업을 설정하는 클래스입니다.
- *  "hello4Step1"은 청크 기반 작업으로, 원본 데이터를 읽어와 가공한 후 최종 결과를 화면에 출력
+ * <p>
+ * Spring Batch를 사용하여 "hello4Job"이라는 배치 작업을 설정하는 클래스입니다.
+ * "hello4Step1"은 청크 기반 작업으로, 원본 데이터를 읽어와 가공한 후 최종 결과를 화면에 출력
  */
 /*
 미션 5
@@ -87,7 +90,7 @@ public class Hello4JobConfig {
             int no = (int) (Math.random() * 200);
 
             // 특정 조건에 도달하면(null인 경우) 읽기를 중단
-            if (no==100) return null;
+            if (no == 100) return null;
 
             return no;
         }

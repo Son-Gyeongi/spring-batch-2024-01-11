@@ -44,7 +44,7 @@ public class Hello2JobConfig {
     @JobScope
     @Bean
     public Step hello2Step1(JobRepository jobRepository, Tasklet hello2Step1Tasklet,
-                           PlatformTransactionManager platformTransactionManager) { // hello2Step1Tasklet1는 hello2Step1Tasklet1 이다.
+                            PlatformTransactionManager platformTransactionManager) { // hello2Step1Tasklet1는 hello2Step1Tasklet1 이다.
         // StepBuilder를 사용하여 'hello2Step1Tasklet1'이라는 이름의 Step을 생성하고, Tasklet과 TransactionManager를 설정
         return new StepBuilder("hello2Step1Tasklet", jobRepository)
                 .tasklet(hello2Step1Tasklet, platformTransactionManager)
