@@ -14,7 +14,7 @@ public class BatchConfig {
 
     // 매일 새벽 1시에 실행되는 스케줄 메서드 cron = "초 분 시간 일 월 주 년"
     @Scheduled(cron = "0 0 1 * * *") // 운영
-//    @Scheduled(cron = "0 * * * * *") // 테스트 - 매 분의 0초에 해당 메서드를 실행, 0초/ 매 분/ 매 시간/ 매일/ 매월/ 매주/ 매 년
+//    @Scheduled(cron = "0 * * * * *") // 테스트 - 매 분의 0초(1분마다 실행)에 해당 메서드를 실행, 0초/ 매 분/ 매 시간/ 매일/ 매월/ 매주/ 매 년
     public void runMakeProductLogJob() {
         // 운영 환경이 아닌 경우 실행하지 않음
         if (AppConfig.isNotProd()) return;
