@@ -46,6 +46,7 @@ public class BatchService {
         try {
             String startDate = startDate_.toString().substring(0, 10) + "00:00:00.000000";
             String endDate = startDate_.toString().substring(0, 10) + "23:59:59.999999";
+            // 스프링 배치의 파라미터는 문자열이어야 한다.
 
             // 파라미터 생성
             // 잡 파라미터를 이용해서 로깅의 구간(날짜 기준)을 설정
