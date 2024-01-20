@@ -125,7 +125,7 @@ public class MakeProductLogJobConfig {
     public ItemWriter<ProductLog> step1Writer() {
         return items -> items.forEach(item -> {
             // 잡이 실패한 후에 다시 실행이 되어도 이미 저장된 데이터는 저장 되지 않고
-            // 새로운 데이터만 저장이 되게 만들었다.
+            // 새로운 데이터만 저장이 되게 만들었다. 완벽한 멱등성을 가진다.(멱등성 - 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질)
             if (!productLogRepository.existsByProduct(item.getProduct()))
                 productLogRepository.save(item);
             // "productLogRepository"를 이용하여 ProductLog 엔터티를 저장
